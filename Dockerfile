@@ -6,8 +6,10 @@ ENV POSTGRES_PASSWORD=root
 ENV POSTGRES_DB=blaze
 
 # Install dependencies 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip3 install pipenv
+COPY Pipfile Pipfile
+COPY Pipfile.lock Pipfile.lock 
+RUN pipenv install --system --deploy --ignore-pipfile 
 
 # Copy the app contents to the image
 COPY . /app

@@ -11,9 +11,5 @@ dev-env-vars:
 run-dev: dev-env-vars 
 	flask run 
 
-docker-requirements: 
-	rm -rf requirements.txt; \
-	pipenv lock -r > requirements.txt; \
-
-docker: docker-requirements dev-env-vars 
+docker: dev-env-vars 
 	docker-compose build && docker-compose up;
