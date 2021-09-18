@@ -12,5 +12,4 @@ run-dev:
 docker: 
 	export FLASK_APP=wsgi.py; \
 	export FLASK_ENV=development; \
-	docker-compose build;\ 
-	docker-compose up
+	docker-compose build && docker-compose up;
