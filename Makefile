@@ -4,12 +4,16 @@ shell:
 update-dev: 
 	pipenv install && pipenv update 
 
-run-dev:
+dev-env-vars: 
 	export FLASK_APP=wsgi.py; \
 	export FLASK_ENV=development; \
+
+run-dev: dev-env-vars 
 	flask run 
 
-docker: 
-	export FLASK_APP=wsgi.py; \
-	export FLASK_ENV=development; \
+docker-requirements: 
+	rm -rf requirements.txt; \
+	pipenv lock -r > requirements.txt; \
+
+docker: docker-requirements dev-env-vars 
 	docker-compose build && docker-compose up;
