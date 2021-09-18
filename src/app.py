@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 def create_app(environment: str): 
     app = Flask(__name__)
     configure_app(app, environment)
-    db = SQLAlchemy(app)
     return app 
 
 def configure_app(app: Flask, environment:str): 
@@ -14,7 +13,7 @@ def configure_app(app: Flask, environment:str):
     Applies supplied configuration to the environment
     """
     config_name_map = {
-        "development": "config.DevConfig"
+        "development": "src.config.DevConfig"
     }   
     try: 
         app.config.from_object(config_name_map[environment])
@@ -23,20 +22,10 @@ def configure_app(app: Flask, environment:str):
     except Exception as err: 
         raise err 
 
-
-env = os.environ["FLASK_ENV"]
-app = create_app(env)
-
-
-@app.route("/")
-def index(): 
-    return "hello world"
-
 # class Todo(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     title = db.Column(db.String(100))
 #     complete = db.Column(db.Boolean)
-
 
 # @app.route("/")
 # def index(): 
@@ -66,9 +55,3 @@ def index():
 #     db.session.delete(todo)
 #     db.session.commit()
 #     return redirect(url_for("index"))
-
-if __name__ == "__main__": 
-    try: 
-        app.run(host="0.0.0.0", port=8080)
-    except Exception as err: 
-        raise err 
