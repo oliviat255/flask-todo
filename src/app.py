@@ -1,7 +1,8 @@
 import os 
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Blueprint
 from flask_sqlalchemy import SQLAlchemy
+from src.api.api_def import api 
 
 def create_app(environment: str): 
     app = Flask(__name__)
@@ -18,7 +19,9 @@ def configure_app(app: Flask, environment:str):
     try: 
         app.config.from_object(config_name_map[environment])
         # TODO - maybe compress here? 
-        #  TODO - maybe use blueprint here???
+        blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
+        api.init_app(blueprint)
+        app.register_blueprint(blueprint)
     except Exception as err: 
         raise err 
 
