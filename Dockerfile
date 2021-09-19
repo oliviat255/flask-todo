@@ -1,4 +1,4 @@
-FROM tiangolo/uwsgi-nginx:python3.7
+FROM tiangolo/uwsgi-nginx:python3.9
 
 # Define environment variables
 ENV POSTGRES_USER=root

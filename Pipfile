@@ -24,6 +24,8 @@ MarkupSafe = "==2.0.1"
 SQLAlchemy = "==1.4.23"
 Werkzeug = "==2.0.1"
 flask-restx = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
