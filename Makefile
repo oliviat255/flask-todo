@@ -13,3 +13,6 @@ run-dev: dev-env-vars
 
 docker: dev-env-vars 
 	docker-compose build && docker-compose up;
+
+stop-docker: 
+	docker-compose down --remove-orphans;
