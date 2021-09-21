@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from src.db.session import Session, engine
 
 Base = declarative_base()
-Base.metadata.create_all(engine)
 
 class Todo(Base):
     """ Class defining a todo object """
@@ -14,6 +13,8 @@ class Todo(Base):
 
 def seed(): 
     session = Session()
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
     todo1 = Todo(title="todo 1", complete=False)
     todo2 = Todo(title="todo 2", complete=False)
     session.add_all([todo1, todo2])

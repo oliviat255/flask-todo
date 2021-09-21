@@ -1,17 +1,30 @@
 from flask import current_app
+from flask_restx import Resource
 from flask import Flask, render_template, request, redirect, url_for
 from src.api.api_def import api, responses
-from src.api.models import health_response_model
+from src.api.models import health_response_model, todos_response_model
 from src.db._create_local import Todo
 from src.db.session import Session
 
 todo = api.namespace("todo")
 
 @todo.route("/", strict_slashes=False)
-def index(self): 
-    session = Session()
-    todo_list = session.query(Todo)
-    return render_template("base.html", todo_list = todo_list)
+@api.doc(responses=responses)
+class Endpoints(Resource): 
+    """ API Healthcheck class """ 
+    @api.response(200, "success", health_response_model)
+    @api.marshal_with(todos_response_model)
+    def get(self): 
+        session = Session()
+        todo_list = session.query(Todo).all()
+        print("todo list", todo_list)
+        return todo_list
+        # return render_template("base.html", todo_list = todo_list)
+
+# @todo.route("/")
+# def index(self): 
+#     return "hello world"
+
 
 # @app.route("/add", methods=["POST"])
 # def add(): 
