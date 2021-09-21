@@ -9,6 +9,7 @@ health_response_model = api.model("HealthResponse", {
 
 # TODOS RESPONSE MODEL 
 todos_response_model = api.model('TodosResponse', {
-    'title': fields.String,
-    'complete': fields.Boolean
+    "id": fields.String, 
+    "title": fields.String,
+    "complete": fields.Boolean
 })

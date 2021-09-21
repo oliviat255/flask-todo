@@ -11,20 +11,15 @@ todo = api.namespace("todo")
 @todo.route("/", strict_slashes=False)
 @api.doc(responses=responses)
 class Endpoints(Resource): 
-    """ API Healthcheck class """ 
-    @api.response(200, "success", health_response_model)
-    @api.marshal_with(todos_response_model)
+    """ Todo endpoint class """ 
+    @todo.marshal_with(todos_response_model)
     def get(self): 
+        print("in get method")
         session = Session()
         todo_list = session.query(Todo).all()
+        session.close()
         print("todo list", todo_list)
         return todo_list
-        # return render_template("base.html", todo_list = todo_list)
-
-# @todo.route("/")
-# def index(self): 
-#     return "hello world"
-
 
 # @app.route("/add", methods=["POST"])
 # def add(): 
