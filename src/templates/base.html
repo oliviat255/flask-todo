@@ -9,7 +9,7 @@
 <body>
     <h1>Todo App</h1>
 
-    <form action="/todo/add" method="post">
+    <form action="api/v1/todo" method="post">
         <div>
             <label for="title">Todo Title</label>
             <input type="text" name="title" placeholder="Enter Todo...">
@@ -27,8 +27,11 @@
         {% else %}
             <span> Completed </span>
         {% endif %}
-
-        <a href="/update/{{ todo.id }}">Update</a>
+        <form action="/api/v1/todo/{{ todo.id }}?_method=PUT" method="POST">
+            <button type="submit" value="PUT" >Update</button>
+         </form>
+        
+        <!-- <a action="/api/v1/todo/{{ todo.id }}" method="put">Update</a> -->
         <a href="/delete/{{ todo.id }}">Delete</a>
     {% endfor %}
 </body>

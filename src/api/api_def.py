@@ -6,5 +6,6 @@ api = Api(version='1.0', title='Todo Application',
     )
 responses = {
     400: "Bad Request", 
+    404: "Todo does not exist",
     500: "Internal Server Error" 
 }
