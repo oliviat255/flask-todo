@@ -1,18 +1,18 @@
-from flask import current_app
+from flask import current_app, jsonify
 from flask import Flask, redirect, request, url_for
 
 from flask_restx import Resource, Namespace, fields
 
-from src.namespace.todo.models import todo_model_def
+from src.namespace.todo.models import todo_model_def, todo_list_model_def, Todo
 from src.namespace.todo.service import get_todo_by_id
-from src.db._create_local import Todo
+
 from src.db.session import Session
 
 todo_ns = Namespace("todo", description="Operations to create, read, update, delete todos")
 
 # Register models to namespace 
 todo_model = todo_ns.model("Todo", todo_model_def)
-
+todo_list_model = todo_ns.model("TodoList", todo_list_model_def)
 
 @todo_ns.route("/", strict_slashes=False)
 @todo_ns.doc(responses={
@@ -20,10 +20,12 @@ todo_model = todo_ns.model("Todo", todo_model_def)
     500: "Internal Server Error" 
 })
 class Todos(Resource): 
-    """ Todos  """ 
+    """Todos""" 
     
+    @todo_ns.response(200, "Success", todo_list_model)
+    @todo_ns.marshal_with(todo_model)
     def get(self):  
-        """ Get all todos """
+        """Get list of all todos"""
         session = Session()
         todo_list = session.query(Todo).all()
         session.close()
@@ -32,7 +34,7 @@ class Todos(Resource):
     @todo_ns.response(201, "Created", todo_ns.model("TodoId",
     {"todoId": fields.Integer(description="Todo identifier")}))
     def post(self): 
-        """ Create new todo """
+        """Create new todo """
         title = request.form.get("title")
         # todo check if todo already exists 
         new_todo = Todo(title=title, complete=False)
@@ -52,25 +54,25 @@ class Todos(Resource):
 class TodoItem(Resource): 
     """ Todo item """
 
+    @todo_ns.response(200, "Success", todo_model)
+    @todo_ns.marshal_with(todo_model)
+    def get(self, todo_id: int): 
+        """Get single todo"""
+        return get_todo_by_id(todo_id) 
+    
     @todo_ns.response(201, "Created", todo_model)
-    def put(self, todo_id): 
-        """ Update single todo """
+    @todo_ns.marshal_with(todo_model, 201)
+    def put(self, todo_id: int): 
+        """Update single todo"""
         todo = get_todo_by_id(todo_id)
         todo.complete = not todo.complete 
-        return todo 
+        return todo
         
-    
-    def delete(self, todo_id): 
-        """ Delete single todo """
+    @todo_ns.response(204, "No Content")
+    def delete(self, todo_id: int): 
+        """Delete single todo"""
         session = Session()
         todo = session.query(Todo).filter_by(id=todo_id).first()
         session.delete(todo)
         session.commit()
         session.close()
-
-# @app.route("/delete/<int:todo_id>")
-# def delete(todo_id): 
-#     todo = Todo.query.filter_by(id=todo_id).first()
-#     db.session.delete(todo)
-#     db.session.commit()
-#     return redirect(url_for("index"))

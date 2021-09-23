@@ -1,15 +1,5 @@
-from sqlalchemy import Column, String, Integer, Boolean
-from sqlalchemy.ext.declarative import declarative_base  
 from src.db.session import Session, engine
-
-Base = declarative_base()
-
-class Todo(Base):
-    """ Class defining a todo object """
-    __tablename__ = "todos"
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    complete = Column(Boolean)
+from src.namespace.todo.models import Todo, Base
 
 def seed(): 
     session = Session()
