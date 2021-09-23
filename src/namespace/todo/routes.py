@@ -32,7 +32,7 @@ class Todos(Resource):
     @todo_ns.response(201, "Created", todo_ns.model("TodoId",
     {"todoId": fields.Integer(description="Todo identifier")}))
     def post(self): 
-        """Create new todo """
+        """Create new todo"""
         title = request.form.get("title")
         # todo check if todo already exists 
         new_todo = Todo(title=title, complete=False)
@@ -50,7 +50,7 @@ class Todos(Resource):
 })
 @todo_ns.param("id", "todo identifer")
 class TodoItem(Resource): 
-    """ Todo item """
+    """Todo item"""
 
     @todo_ns.response(200, "Success", todo_model)
     @todo_ns.marshal_with(todo_model)
