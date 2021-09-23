@@ -1,15 +1,11 @@
-from flask import current_app
-from flask_restx import Resource
-from src.api.api_def import api, responses
-from src.api.models import health_response_model
+from flask_restx import Resource, Namespace
 
-health = api.namespace("health")
 
-@health.route("/api", strict_slashes=False)
-@api.doc(responses=responses)
+health_ns = Namespace("health", description="health check")
+
+@health_ns.route("/api", strict_slashes=False)
 class Healthcheck(Resource): 
     """ API Healthcheck class """ 
-    @api.response(200, "success", health_response_model)
-    @api.marshal_with(health_response_model)
+    @health_ns.response(200, "Success")
     def get(self): 
         return{"message": "application healthy"}

@@ -16,3 +16,6 @@ docker: dev-env-vars
 
 stop-docker: 
 	docker-compose down --remove-orphans;
+
+lint:
+	pylint src
