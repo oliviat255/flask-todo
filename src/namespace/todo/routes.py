@@ -29,17 +29,19 @@ class Todos(Resource):
         session.close()
         return todo_list
     
+    # Todo - fix this so the data comes in correctly 
     @todo_ns.response(201, "Created", todo_ns.model("TodoId",
     {"todoId": fields.Integer(description="Todo identifier")}))
     def post(self): 
         """Create new todo"""
+        payload = todo_ns.payload
         title = request.form.get("title")
         # todo check if todo already exists 
         new_todo = Todo(title=title, complete=False)
         session = Session()
         session.add(new_todo)
         session.commit()
-        return new_todo.id, 201
+        return new_todo.id
         
 
 @todo_ns.route("/<int:todo_id>", strict_slashes=False)
@@ -70,7 +72,9 @@ class TodoItem(Resource):
     def delete(self, todo_id: int): 
         """Delete single todo"""
         session = Session()
-        todo = session.query(Todo).filter_by(id=todo_id).first()
+        todo = get_todo_by_id(todo_id)
         session.delete(todo)
         session.commit()
         session.close()
+        return 
+

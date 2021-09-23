@@ -28,6 +28,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 requests = "*"
 pylint = "*"
+pytest = "*"
 
 [dev-packages]
 
