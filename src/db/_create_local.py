@@ -1,5 +1,6 @@
 from src.db.session import Session, engine
-from src.namespace.todo.models import Todo, Base
+from src.db.models.base import Base 
+from src.db.models.todo import Todo
 
 def seed(): 
     session = Session()
