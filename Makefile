@@ -18,4 +18,4 @@ stop-docker:
 	docker-compose down --remove-orphans;
 
 lint:
-	pylint src
+	pylint --disable=C0303 src

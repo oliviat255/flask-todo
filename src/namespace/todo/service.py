@@ -1,5 +1,5 @@
 from src.db.session import Session
-from src.namespace.todo.models import Todo 
+from src.db.models.todo import Todo 
 
 def get_todo_by_id(todo_id: int) -> Todo: 
     """Get todo details by id"""

@@ -1,12 +1,10 @@
-from flask import current_app, jsonify
-from flask import Flask, redirect, request, url_for
-
 from flask_restx import Resource, Namespace, fields
 
-from src.namespace.todo.models import todo_model_def, todo_list_model_def, Todo
+from src.namespace.todo.models import todo_model_def, todo_list_model_def
 from src.namespace.todo.service import get_todo_by_id
 
 from src.db.session import Session
+from src.db.models.todo import Todo 
 
 todo_ns = Namespace("todo", description="Operations to create, read, update, delete todos")
 

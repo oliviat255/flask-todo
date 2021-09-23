@@ -1,6 +1,6 @@
 """Model for todo"""
+from sqlalchemy import Boolean, Column, Integer, String
 from src.db.models.base import Base
-from sqlalchemy import Column, String, Integer, Boolean
 
 class Todo(Base):
     """Class defining a todo object"""

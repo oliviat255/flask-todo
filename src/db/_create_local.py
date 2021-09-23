@@ -3,6 +3,7 @@ from src.db.models.base import Base
 from src.db.models.todo import Todo
 
 def seed(): 
+    """Create data for local database needed for local testing"""
     session = Session()
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)

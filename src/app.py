@@ -1,7 +1,4 @@
-import os 
-
 from flask import Flask, Blueprint
-from flask_sqlalchemy import SQLAlchemy
 from flask_restx import Api 
 
 from src.namespace.health.route import health_ns
@@ -20,15 +17,13 @@ api.add_namespace(health_ns, "/health")
 
 
 def create_app(environment: str): 
-    """ Create and configure flask application """
+    """Create and configure flask application"""
     app = Flask(__name__)
     configure_app(app, environment)
     return app 
 
 def configure_app(app: Flask, environment:str): 
-    """
-    Applies supplied configuration to the environment
-    """
+    """Applies supplied configuration to the environmet"""
     config_name_map = {
         "development": "src.config.DevConfig"
     }   
@@ -41,4 +36,3 @@ def configure_app(app: Flask, environment:str):
             _create_local.seed()
     except Exception as err: 
         raise err 
-
