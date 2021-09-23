@@ -2,12 +2,17 @@ from flask import current_app
 from flask import Flask, redirect, request, url_for
 
 from flask_restx import Resource, Namespace, fields
+
+from src.namespace.todo.models import todo_model_def
+from src.namespace.todo.service import get_todo_by_id
 from src.db._create_local import Todo
 from src.db.session import Session
 
 todo_ns = Namespace("todo", description="Operations to create, read, update, delete todos")
 
 # Register models to namespace 
+todo_model = todo_ns.model("Todo", todo_model_def)
+
 
 @todo_ns.route("/", strict_slashes=False)
 @todo_ns.doc(responses={
@@ -38,18 +43,22 @@ class Todos(Resource):
         
 
 @todo_ns.route("/<int:todo_id>", strict_slashes=False)
+@todo_ns.doc(responses={
+    400: "Bad Request", 
+    404: "TodoId does not exist",
+    500: "Internal Server Error" 
+})
 @todo_ns.param("id", "todo identifer")
 class TodoItem(Resource): 
     """ Todo item """
+
+    @todo_ns.response(201, "Created", todo_model)
     def put(self, todo_id): 
         """ Update single todo """
-        session = Session()
-        todo = session.query(Todo).filter_by(id=todo_id).first()
+        todo = get_todo_by_id(todo_id)
         todo.complete = not todo.complete 
-        session.commit()
-        session.close()
-        return True
-        # return redirect("http://127.0.0.1:5000/")
+        return todo 
+        
     
     def delete(self, todo_id): 
         """ Delete single todo """
