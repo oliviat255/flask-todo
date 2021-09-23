@@ -1,7 +1,8 @@
+from flask import request
 from flask_restx import Resource, Namespace, fields
 
-from src.namespace.todo.models import todo_model_def, todo_list_model_def
-from src.namespace.todo.service import get_todo_by_id
+from src.api.todo.models import todo_model_def, todo_list_model_def
+from src.api.todo.service import get_todo_by_id
 
 from src.db.session import Session
 from src.db.models.todo import Todo 
@@ -34,7 +35,7 @@ class Todos(Resource):
     {"todoId": fields.Integer(description="Todo identifier")}))
     def post(self): 
         """Create new todo"""
-        payload = todo_ns.payload
+        # payload = todo_ns.payload
         title = request.form.get("title")
         # todo check if todo already exists 
         new_todo = Todo(title=title, complete=False)
@@ -76,5 +77,5 @@ class TodoItem(Resource):
         session.delete(todo)
         session.commit()
         session.close()
-        return 
+        return ""
 

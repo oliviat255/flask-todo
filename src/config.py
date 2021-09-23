@@ -8,6 +8,6 @@ class DevConfig():
     SQLALCHEMY_DATABASE_URI = "sqlite:///db.sqlite"
     SQLACLHEMY_TRACK_MODIFICATIONS = False
 
-class TestConfig(): 
+class TestConfig(DevConfig): 
     """Configuration for unit testing""" 
     TESTING = True 
