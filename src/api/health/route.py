@@ -1,4 +1,4 @@
-from flask_restx import Resource, Namespace
+from flask_restx import Resource, Namespace # type: ignore
 
 health_ns = Namespace("health", description="health check")
 

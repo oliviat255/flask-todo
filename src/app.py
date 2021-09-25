@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint
-from flask_restx import Api 
+from flask_restx import Api # type: ignore
 
 from src.api.health.route import health_ns
 from src.api.todo.routes import todo_ns
@@ -16,13 +16,13 @@ api.add_namespace(todo_ns, path="/todos")
 api.add_namespace(health_ns, "/health")
 
 
-def create_app(environment: str): 
+def create_app(environment: str) -> Flask: 
     """Create and configure flask application"""
     app = Flask(__name__)
     configure_app(app, environment)
     return app 
 
-def configure_app(app: Flask, environment:str): 
+def configure_app(app: Flask, environment:str) -> None: 
     """Applies supplied configuration to the environmet"""
     config_name_map = {
         "development": "src.config.DevConfig",
