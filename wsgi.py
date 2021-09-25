@@ -13,7 +13,7 @@ app = create_app(env)
 def index(): 
     url = url_for("api.todo_todos")
     response = requests.get("http://127.0.0.1:5000/api/v1/todos", timeout=5)
-    return render_template("base.html", todo_list=response.json())
+    return render_template("index.html", todo_list=response.json())
 
 if __name__ == "__main__":
     try: 

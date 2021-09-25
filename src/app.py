@@ -18,7 +18,7 @@ api.add_namespace(health_ns, path="/health")
 
 def create_app(environment: str) -> Flask: 
     """Create and configure flask application"""
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="../templates")
     configure_app(app, environment)
     return app 
 
