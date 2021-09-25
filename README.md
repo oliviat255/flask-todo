@@ -20,7 +20,7 @@ Swagger can be found at the root http://127.0.0.1:5000/api/v1/
 A very ugly UI can be found at http://127.0.0.1:5000 which will list all of the todos. In the UI you can add a todo. It will then show you the id of the new todo. This is a horrible user expierience. I am not focused on front-end development for this project which is why I left the front end in such a terrible state. 
  
 ### Run flask app with docker 
-```make docker``` which will build the image and start the container. The docker container points to http://localhost:500/
+```make docker``` which will build the image and start the container. The docker container points to http://localhost:5000/
 
 ## Tech Stack  
 * Flask 
