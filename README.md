@@ -11,10 +11,16 @@ I created this application to become familiar with the [Flask](https://flask.pal
 * Pipenv 
 * RestX 
 * Pytest 
-* SqlAlchemy 
+* SQLAlchemy 
 
 ### Flask Learnings 
 I chose Flask because it is a lightwork framework that is easy to get started with. 
+The endpoints in this application are contained in a blueprint. A blueprint is a set of operations that can be registered on an application. A single flask application can contain multiple blueprints. A blueprint can also be registered to the same application multiple times. It is a simliar concept to application components in that the goal of a blueprint is to organize a larger application into smaller parts. 
+I used flask-restx to create a restful api. This made it easy create todo as a CRUD resource. Flask-restx also provides the concept of a namespace to organize an application. I created two namespaces, todo and health, and mounted them to the application. The concept of a namespace is useful when you need to create a new version of the api.
+
+
+### SQLAlchmey 
+I used SQLAlchemy to create an in-memory database for this application. SQLAlchemy also serves an an Object Relational Mapper (ORM) tool that translates classes to tables on relational databases and automatically converts function calls to SQL statements. This is a more secure way of communicating with a relational database than sending SQL queries as strings. SQLAlchemy sessions guarentee database consistency. In this application I create a new session each time I need to make a call to the database. This is considered best practice on the [documentation](https://docs.sqlalchemy.org/en/14/orm/session_basics.html#session-frequently-asked-questions). 
 
 ### Testing Learnings 
 Pytest can run serveral tests in parallel. This saves a considerable amount of computation time. This makes it superior to the unittest library.
