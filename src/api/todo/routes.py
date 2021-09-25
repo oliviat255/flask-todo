@@ -1,8 +1,9 @@
 from flask import request
 from flask_restx import Resource, Namespace, fields
+from werkzeug.exceptions import BadRequest
 
 from src.api.todo.models import todo_model_def, todo_list_model_def
-from src.api.todo.service import get_todo_by_id
+from src.api.todo.service import get_todo_by_id, get_todo_by_name
 
 from src.db.session import Session
 from src.db.models.todo import Todo 
@@ -23,7 +24,7 @@ class Todos(Resource):
     
     @todo_ns.response(200, "Success", todo_list_model)
     @todo_ns.marshal_with(todo_model)
-    def get(self):  
+    def get(self) -> [Todo]:  
         """Get list of all todos"""
         session = Session()
         todo_list = session.query(Todo).all()
@@ -33,11 +34,12 @@ class Todos(Resource):
     # Todo - fix this so the data comes in correctly 
     @todo_ns.response(201, "Created", todo_ns.model("TodoId",
     {"todoId": fields.Integer(description="Todo identifier")}))
-    def post(self): 
+    def post(self) -> Todo.id: 
         """Create new todo"""
-        # payload = todo_ns.payload
         title = request.form.get("title")
-        # todo check if todo already exists 
+        todo = get_todo_by_name(title)
+        if todo: 
+            raise BadRequest(f"Todo with title {title} already exists")
         new_todo = Todo(title=title, complete=False)
         session = Session()
         session.add(new_todo)
@@ -57,20 +59,20 @@ class TodoItem(Resource):
 
     @todo_ns.response(200, "Success", todo_model)
     @todo_ns.marshal_with(todo_model)
-    def get(self, todo_id: int): 
+    def get(self, todo_id: int) -> Todo: 
         """Get single todo"""
-        return get_todo_by_id(todo_id) 
+        return get_todo_by_id(todo_id)  
     
     @todo_ns.response(201, "Created", todo_model)
     @todo_ns.marshal_with(todo_model, 201)
-    def put(self, todo_id: int): 
+    def put(self, todo_id: int) -> Todo: 
         """Update single todo"""
         todo = get_todo_by_id(todo_id)
         todo.complete = not todo.complete 
         return todo
         
     @todo_ns.response(204, "No Content")
-    def delete(self, todo_id: int): 
+    def delete(self, todo_id: int) -> str: 
         """Delete single todo"""
         session = Session()
         todo = get_todo_by_id(todo_id)
