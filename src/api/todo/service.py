@@ -1,5 +1,5 @@
-from werkzeug.exceptions import NotFound
 from typing import Optional
+from werkzeug.exceptions import NotFound
 from src.db.session import Session
 from src.db.models.todo import Todo 
 

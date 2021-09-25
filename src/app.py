@@ -13,7 +13,7 @@ api = Api(version='1.0', title='Todo Application',
 
 # Add namespaces to api 
 api.add_namespace(todo_ns, path="/todos")
-api.add_namespace(health_ns, "/health")
+api.add_namespace(health_ns, path="/health")
 
 
 def create_app(environment: str) -> Flask: 
@@ -33,7 +33,7 @@ def configure_app(app: Flask, environment:str) -> None:
         blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
         api.init_app(blueprint)
         app.register_blueprint(blueprint)
-        if environment == "development" or environment == "testing":  
+        if environment in ("development", "testing"):
             _create_local.seed()
     except Exception as err: 
         raise err 

@@ -1,7 +1,7 @@
+from typing import List, Tuple
 from flask import request
 from flask_restx import Resource, Namespace, fields # type: ignore
 from werkzeug.exceptions import BadRequest
-from typing import List, Tuple
 
 from src.api.todo.models import todo_model_def, todo_list_model_def
 from src.api.todo.service import get_todo_by_id, get_todo_by_name
@@ -32,7 +32,6 @@ class Todos(Resource):
         session.close()
         return todo_list
     
-    # Todo - fix this so the data comes in correctly 
     @todo_ns.response(201, "Created", todo_ns.model("TodoId",
     {"todoId": fields.Integer(description="Todo identifier")}))
     def post(self) -> Todo.id: 
