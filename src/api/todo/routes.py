@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource, Namespace, fields # type: ignore
 from werkzeug.exceptions import BadRequest
-from typing import List 
+from typing import List, Tuple
 
 from src.api.todo.models import todo_model_def, todo_list_model_def
 from src.api.todo.service import get_todo_by_id, get_todo_by_name
@@ -66,14 +66,14 @@ class TodoItem(Resource):
     
     @todo_ns.response(201, "Created", todo_model)
     @todo_ns.marshal_with(todo_model, 201)
-    def put(self, todo_id: int) -> Todo: 
+    def put(self, todo_id: int) -> Tuple[Todo, int]: 
         """Update single todo"""
         todo = get_todo_by_id(todo_id)
         todo.complete = not todo.complete 
         return todo, 201
         
     @todo_ns.response(204, "No Content")
-    def delete(self, todo_id: int) -> str: 
+    def delete(self, todo_id: int) -> Tuple[str, int]: 
         """Delete single todo"""
         todo = get_todo_by_id(todo_id)
         if todo is None: 
@@ -84,4 +84,3 @@ class TodoItem(Resource):
         session.commit()
         session.close()
         return "", 204
-
