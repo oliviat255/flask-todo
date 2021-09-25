@@ -1,6 +1,7 @@
 from flask import request
-from flask_restx import Resource, Namespace, fields
+from flask_restx import Resource, Namespace, fields # type: ignore
 from werkzeug.exceptions import BadRequest
+from typing import List 
 
 from src.api.todo.models import todo_model_def, todo_list_model_def
 from src.api.todo.service import get_todo_by_id, get_todo_by_name
@@ -24,7 +25,7 @@ class Todos(Resource):
     
     @todo_ns.response(200, "Success", todo_list_model)
     @todo_ns.marshal_with(todo_model)
-    def get(self) -> [Todo]:  
+    def get(self) -> List[Todo]:  
         """Get list of all todos"""
         session = Session()
         todo_list = session.query(Todo).all()

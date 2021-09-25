@@ -1,4 +1,4 @@
-from flask_restx import fields, Model
+from flask_restx import fields, Model # type: ignore
 
 # todo model 
 todo_model_def = Model('Todo', {

@@ -11,7 +11,7 @@ def get_todo_by_id(todo_id: int) -> Todo:
         raise NotFound("404 - Todo not found")
     return todo 
 
-def get_todo_by_name(todo_name: str) -> Optional[Todo]: 
+def get_todo_by_name(todo_name: Optional[str]) -> Optional[Todo]: 
     """Get todo details by name"""
     session = Session()
     todo = session.query(Todo).filter_by(title=todo_name).first()
