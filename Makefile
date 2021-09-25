@@ -19,3 +19,10 @@ stop-docker:
 
 lint:
 	pylint --disable=C0303 src
+
+test: 
+	export FLASK_ENV=TEST; \
+	python -m pytest -vv
+
+mypy: 
+	mypy .
