@@ -45,7 +45,7 @@ class Todos(Resource):
         session = Session()
         session.add(new_todo)
         session.commit()
-        return new_todo.id
+        return new_todo.id, 201
         
 
 @todo_ns.route("/<int:todo_id>", strict_slashes=False)
@@ -70,15 +70,18 @@ class TodoItem(Resource):
         """Update single todo"""
         todo = get_todo_by_id(todo_id)
         todo.complete = not todo.complete 
-        return todo
+        return todo, 201
         
     @todo_ns.response(204, "No Content")
     def delete(self, todo_id: int) -> str: 
         """Delete single todo"""
-        session = Session()
         todo = get_todo_by_id(todo_id)
-        session.delete(todo)
+        if todo is None: 
+            raise BadRequest(f"Todo with id {todo_id} does not exist")
+        session = Session()
+        to_delete = session.query(Todo).filter_by(id=todo_id).first()
+        session.delete(to_delete)
         session.commit()
         session.close()
-        return ""
+        return "", 204
 
