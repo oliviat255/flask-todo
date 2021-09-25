@@ -19,11 +19,17 @@ def test_new_todo_happy_path(flask_client, request_context):
         assert new_todo.json["id"] == str(response.json)
         assert new_todo.json["title"] == data["title"]
 
-def test_new_todo_sad_path(flask_client, request_context): 
+def test_new_todo_existing_todo(flask_client, request_context): 
     with request_context: 
         data = {"title": "todo 1"}
         response = flask_client.post(url_for("api.todo_todos"), data=data)
         assert response.status_code == 400
+
+def test_new_todo_empty_title(flask_client, request_context): 
+    with pytest.raises(ValueError), request_context: 
+        data = {"title": ""}
+        flask_client.post(url_for("api.todo_todos"), data=data)
+            
 
 def test_get_todo_happy_path(flask_client, request_context): 
     with request_context: 

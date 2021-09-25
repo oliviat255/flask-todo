@@ -1,5 +1,6 @@
 """Model for todo"""
 from sqlalchemy import Boolean, Column, Integer, String # type: ignore
+from sqlalchemy.orm import validates 
 from src.db.models.base import Base
 
 class Todo(Base):
@@ -9,7 +10,9 @@ class Todo(Base):
     title = Column(String, nullable=False)
     complete = Column(Boolean)
 
-    # @validates("title")
-    # def validate_title(self, key, name): 
-    #     if 
+    @validates("title")
+    def validate_title(self, key, name): 
+        if name == "": 
+            raise ValueError("failed validation")
+        return name
 
